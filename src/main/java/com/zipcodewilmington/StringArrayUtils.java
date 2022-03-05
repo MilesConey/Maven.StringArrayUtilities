@@ -110,7 +110,12 @@ public class StringArrayUtils {
      * @return number of occurrences the specified `value` has occurred
      */ // TODO
     public static int getNumberOfOccurrences(String[] array, String value) {
-        return 0;
+        int counter = 0;
+        for (int i = 0; i < array.length ; i++) {
+            if (value.equals(array[i])){
+                counter++;
+            }
+        } return counter;
     }
 
     /**
@@ -119,16 +124,46 @@ public class StringArrayUtils {
      * @return array with identical contents excluding values of `value`
      */ // TODO
     public static String[] removeValue(String[] array, String valueToRemove) {
-        return null;
+        String[] strArray = new String[array.length - 1]; // was able to use - 1 because there is only 1 value to be removed, not sure how to do the length of the array if more than 1 value to remove
+        int counter = 0;
+        for (int i = 0; i < array.length ; i++) {
+            if (!valueToRemove.equals(array[i])){ //!= is the same as !parameter.equals()
+              strArray[counter] = array[i];
+              counter++;
+            }
+        } return strArray;
     }
 
     /**
      * @param array array of chars
      * @return array of Strings with consecutive duplicates removes
+     * https://www.geeksforgeeks.org/for-each-loop-in-java/ resource used for how to write for each loops
      */ // TODO
     public static String[] removeConsecutiveDuplicates(String[] array) {
-        return null;
+        String[] strArray;
+        int duplicateCounter = 0;
+        int counter = 0;
+        String duplicate = "";
+
+        for (String str : array) {
+            if (!str.equals(duplicate)) {
+                duplicate = str;
+            } else duplicateCounter++;
+        }
+
+        strArray = new String[array.length - duplicateCounter];
+
+        for (String str : array)
+            if (!str.equals(duplicate)) {
+                strArray[counter] = str;
+                duplicate = str;
+                counter++;
+            }       
+
+        return strArray;
+
     }
+
 
     /**
      * @param array array of chars
@@ -140,3 +175,16 @@ public class StringArrayUtils {
 
 
 }
+/*
+intellij suggested an enhanced for loop instead of the code below for duplicate method
+for (int i = 0; i < array.length; i++){
+            if(!array[i].equals(duplicate)) {
+                duplicate = array[i];
+                }
+ for (int i = 0; i < array.length; i++)
+            if (!array[i].equals(duplicate)) {
+                strArray[j] = array[i];
+                duplicate = array[i];
+                j++;
+            }                  
+ */
