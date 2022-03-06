@@ -1,6 +1,8 @@
 package com.zipcodewilmington;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by leon on 1/29/18.
@@ -140,28 +142,14 @@ public class StringArrayUtils {
      * https://www.geeksforgeeks.org/for-each-loop-in-java/ resource used for how to write for each loops
      */ // TODO
     public static String[] removeConsecutiveDuplicates(String[] array) {
-        String[] strArray;
-        int duplicateCounter = 0;
-        int counter = 0;
-        String duplicate = "";
-
-        for (String str : array) {
-            if (!str.equals(duplicate)) {
-                duplicate = str;
-            } else duplicateCounter++;
-        }
-
-        strArray = new String[array.length - duplicateCounter];
-
-        for (String str : array)
-            if (!str.equals(duplicate)) {
-                strArray[counter] = str;
-                duplicate = str;
-                counter++;
-            }       
-
-        return strArray;
-
+        List<String> words = new ArrayList<>(); // created new array list
+        String previousElement = "";  // Created new string
+        for (String element : array) { // Created for each loop. for every element in the array.
+            if (!element.equals(previousElement)) { //if the current element is not equal to the last element populated in the words array list, then add the element to the words array list
+                words.add(element); //
+            }
+            previousElement = element; // otherwise previous element is equal to current element
+        }  return words.toArray(new String[0]); // returns the array list words, populated with only non duplicates
     }
 
 
@@ -170,7 +158,19 @@ public class StringArrayUtils {
      * @return array of Strings with each consecutive duplicate occurrence concatenated as a single string in an array of Strings
      */ // TODO
     public static String[] packConsecutiveDuplicates(String[] array) {
-        return null;
+        List<String> words = new ArrayList<>(); // created new arraylist called words
+        StringBuilder current = new StringBuilder(array[0]); // created new stringbuilder at array index 0
+        for (int i = 1; i < array.length; i++) {  // created for loop to loop through elements in array
+            if (array[i].equals(array[i-1])) { // if current array element is equal to previous element...
+                current.append(array[i]); // append the element to the current String builder, with .append concatenating them
+            } else { //otherwise
+                words.add(current.toString()); // convert current elements to string and add to words array list. This adds to array list,but does not append them.
+                current = new StringBuilder(array[i]); // created new stringbuilder at array index i, to account for everything after the first index
+            }
+        }
+        words.add(current.toString()); //convert current elements to string and adds it to words array list. I need this here to account for the array[0] that is outside for loop
+
+        return words.toArray(new String[0]); // converts words to array form an array list and returns words array
     }
 
 
